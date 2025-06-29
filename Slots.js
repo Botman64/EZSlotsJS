@@ -19,9 +19,9 @@
  * }).SpinPressed(() => [
  *   ['row1Item', 'row2Item', 'row3Item'], // column 1 results
  *   ['row1Item', 'row2Item', 'row3Item']  // column 2 results
- * ]).SpinFinished((results, betAmount) => {
+ * ]).SpinFinished(() => {
  *   // Handle spin completion - display rewards, update balance, etc.
- *   console.log('Spin finished with results:', results, 'bet:', betAmount);
+ *   console.log('Spin finished');
  * });
  */
 

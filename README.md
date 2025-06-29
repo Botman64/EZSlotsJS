@@ -53,9 +53,9 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
                 ['seven', 'cherry', 'lemon'],   // Reel 4
                 ['diamond', 'orange', 'seven']  // Reel 5
             ];
-        }).SpinFinished((results, betAmount) => {
+        }).SpinFinished(() => {
             // Handle spin completion
-            console.log('Spin finished!', results, betAmount);
+            console.log('Spin finished!');
             // Update player balance, show rewards, etc.
         });
     </script>
