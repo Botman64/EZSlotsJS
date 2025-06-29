@@ -1,16 +1,17 @@
-# EZ Slots - Modern Slot Machine Library
+# EZ Slots - JavaScript Slot Machine Display Library
 
-A modern, theme-based, CDN-ready slot machine library designed specifically for FiveM and web applications. Features responsive design, dark mode themes, and comprehensive programmatic control.
+A lightweight, modern JavaScript library for creating animated slot machine displays. Perfect for adding slot machine visuals to any web application with customizable themes, symbols, and animations.
 
 ## 🎰 Features
 
-- **Modern UI**: Dark, vibrant themes with transparent backgrounds
-- **Responsive Design**: Scales perfectly to any container size
-- **Multiple Themes**: Cartoon, Neon, and Golden themes included
-- **CDN Ready**: Drop-in library with zero dependencies
-- **Programmatic Control**: Full API for keyboard/controller integration
-- **Multiple Instances**: Run multiple slot machines simultaneously
-- **Customizable**: Complete control over symbols, themes, and behavior
+- **Pure Frontend**: JavaScript-only library for slot machine display and animation
+- **Zero Dependencies**: Self-contained library with no external requirements
+- **Modern UI**: Beautiful themes with smooth animations
+- **Responsive Design**: Adapts to any container size automatically
+- **Multiple Themes**: Built-in Cartoon, Neon, and Golden themes
+- **Customizable**: Full control over symbols, colors, and appearance
+- **Multiple Instances**: Create multiple slot machines on the same page
+- **Animation Control**: Programmatic control over spin animations and results
 
 ## 🚀 Quick Start
 
@@ -23,13 +24,13 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
     <title>Slot Machine</title>
 </head>
 <body>
-    <div id="slot-container" style="width: 100vw; height: 100vh;"></div>
+    <div id="slot-container" style="width: 800px; height: 600px;"></div>
     
     <script src="https://cdn.jsdelivr.net/gh/Botman64/EZSlotsJS@main/Slots.js"></script>
     <script>
         const container = document.getElementById('slot-container');
         
-        const slots = Slots.Render(container, {
+        const slotMachine = new SlotMachine(container, {
             reelCount: 5,
             maxBet: 1000,
             minBet: 10,
@@ -46,16 +47,15 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
         }).SpinPressed((currentBet) => {
             // Return the spin results for each reel
             return [
-                ['cherry', 'lemon', 'orange'],  // Reel 1
-                ['lemon', 'lemon', 'seven'],    // Reel 2
-                ['orange', 'diamond', 'cherry'], // Reel 3
-                ['seven', 'cherry', 'lemon'],   // Reel 4
+                ['cherry', 'lemon', 'orange'],  // Reel 1 (top, middle, bottom)
+                ['lemon', 'seven', 'cherry'],   // Reel 2
+                ['orange', 'diamond', 'lemon'], // Reel 3
+                ['seven', 'cherry', 'orange'],  // Reel 4
                 ['diamond', 'orange', 'seven']  // Reel 5
             ];
-        }).SpinFinished(() => {
-            // Handle spin completion
-            console.log('Spin finished!');
-            // Update player balance, show rewards, etc.
+        }).SpinFinished((results) => {
+            // Handle animation completion
+            console.log('Spin animation finished:', results);
         });
     </script>
 </body>
@@ -64,9 +64,13 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
 
 ## 📖 API Reference
 
-### Slots.Render(container, options)
+### SlotMachine Constructor
 
-Creates a new slot machine instance in the specified container.
+Creates a new slot machine display instance.
+
+```javascript
+const slotMachine = new SlotMachine(container, options);
+```
 
 **Parameters:**
 - `container` (HTMLElement): The parent container element
@@ -77,94 +81,65 @@ Creates a new slot machine instance in the specified container.
 {
     reelCount: 5,              // Number of reels (1-10)
     maxBet: 1000,              // Maximum bet amount
-    minBet: 10,                // Minimum bet amount  
+    minBet: 10,                // Minimum bet amount
     betIncrement: 10,          // Bet increment/decrement amount
     logoUrl: 'logo.png',       // Optional logo URL
     symbols: {                 // Symbol definitions
-        symbolId: 'emoji|url'  // Can be emoji, text, or image URL
+        symbolId: 'content'    // Can be emoji, text, or image URL
     },
-    theme: Slots.defaultThemes.cartoon  // Theme object (see Built-in Themes section)
+    theme: SlotMachine.defaultThemes.cartoon  // Theme object
 }
 ```
-
-**Returns:** Slots instance with chainable methods
 
 ### Instance Methods
 
 #### .SpinPressed(callback)
-Sets the callback function for when the spin button is pressed or `Slots.Spin()` is called.
+Sets the callback function that defines what symbols appear when a spin is triggered.
 
 ```javascript
-.SpinPressed((currentBet) => {
-    // Your server/game logic here
+slotMachine.SpinPressed(() => {
     // Return array of arrays representing each reel's symbols
     return [
-        ['symbol1', 'symbol2', 'symbol3'],  // Reel 1 (top to bottom)
+        ['symbol1', 'symbol2', 'symbol3'],  // Reel 1 (top, middle, bottom)
         ['symbol1', 'symbol2', 'symbol3'],  // Reel 2
-        // ... more reels
+        // ... more reels based on reelCount
     ];
-})
+});
 ```
+
+**Returns:** SlotMachine instance (chainable)
 
 #### .SpinFinished(callback)
 Sets the callback function for when a spin animation completes.
 
 ```javascript
-.SpinFinished((results, betAmount) => {
-    // Handle spin completion
+slotMachine.SpinFinished((results) => {
+    // Handle animation completion
     // results: the same array returned from SpinPressed
-    // betAmount: the current bet amount when spin started
-    
-    // Example: Check for wins and update balance
-    if (isWinningCombination(results)) {
-        updatePlayerBalance(calculateWinnings(results, betAmount));
-        showWinAnimation();
-    }
-})
-```
-
-### Global Methods
-
-#### Slots.IncreaseBet()
-Increases the current bet by the increment amount.
-
-#### Slots.DecreaseBet()
-Decreases the current bet by the increment amount.
-
-#### Slots.MaxBet()
-Sets the bet to the maximum allowed amount.
-
-#### Slots.SetMoney(amount)
-Updates the money/balance display.
-
-```javascript
-Slots.SetMoney(50000); // Shows "💰 50,000"
-```
-
-#### Slots.Spin()
-Programmatically triggers a spin (for keyboard/controller support).
-
-```javascript
-// Example: Keyboard controls
-document.addEventListener('keydown', (e) => {
-    switch(e.key) {
-        case ' ':      // Spacebar to spin
-            Slots.Spin();
-            break;
-        case 'ArrowUp':   // Increase bet
-            Slots.IncreaseBet();
-            break;
-        case 'ArrowDown': // Decrease bet
-            Slots.DecreaseBet();
-            break;
-        case 'Enter':     // Max bet
-            Slots.MaxBet();
-            break;
-    }
+    console.log('Animation finished with results:', results);
 });
 ```
 
-#### Slots.Remove()
+**Returns:** SlotMachine instance (chainable)
+
+#### .MachineLeft(callback)
+Sets the callback function for when the "Leave Machine" button is clicked.
+
+```javascript
+slotMachine.MachineLeft(() => {
+    console.log('User left the machine');
+    // Clean up, redirect, etc.
+});
+```
+
+**Returns:** SlotMachine instance (chainable)
+
+### Instance Properties & Methods
+
+#### .Spin()
+Programmatically triggers a spin animation.
+
+#### .Remove()
 Removes the slot machine from the DOM and cleans up all references.
 
 ## 🎨 Built-in Themes
@@ -232,238 +207,248 @@ theme: {
 }
 ```
 
-## 🎮 UI Button Behavior
+## 🎮 User Interface
 
-The slot machine UI includes several interactive buttons that automatically call the corresponding API methods:
+The slot machine includes an interactive interface:
 
-- **Increase Bet (+)**: Calls `Slots.IncreaseBet()`
-- **Decrease Bet (-)**: Calls `Slots.DecreaseBet()`  
-- **Max Bet**: Calls `Slots.MaxBet()`
-- **Spin Button**: Calls `Slots.Spin()` internally, which triggers your `SpinPressed` callback
-- **Lobby Button**: Currently decorative, can be customized
-
-## 🎯 FiveM Integration
-
-### Client-Side (HTML/JS)
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <style>
-        body { margin: 0; padding: 0; background: transparent; }
-        #slots { width: 100vw; height: 100vh; }
-    </style>
-</head>
-<body>
-    <div id="slots"></div>
-    <script src="slots-cdn.js"></script>
-    <script>
-        const slots = Slots.Render(document.getElementById('slots'), {
-            reelCount: 5,
-            maxBet: 1000,
-            minBet: 10,
-            betIncrement: 10,
-            symbols: {
-                cherry: 'symbols/cherry.png',
-                seven: 'symbols/seven.png',
-                diamond: 'symbols/diamond.png'
-            },
-            theme: Slots.defaultThemes.neon
-        }).SpinPressed((bet) => {
-            // Send bet to server
-            fetch('https://your-server/spin', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ bet: bet })
-            }).then(r => r.json()).then(data => {
-                return data.results;
-            });
-        }).SpinFinished((results, bet) => {
-            // Handle winnings
-            fetch('https://your-server/complete', {
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ results, bet })
-            });
-        });
-
-        // Keyboard controls for FiveM
-        window.addEventListener('message', (event) => {
-            if (event.data.type === 'keydown') {
-                switch(event.data.key) {
-                    case 'space':
-                        Slots.Spin();
-                        break;
-                    case 'arrowUp':
-                        Slots.IncreaseBet();
-                        break;
-                    case 'arrowDown':
-                        Slots.DecreaseBet();
-                        break;
-                }
-            }
-        });
-    </script>
-</body>
-</html>
-```
-
-### Server-Side (Lua)
-```lua
--- Register NUI callbacks
-RegisterNUICallback('spin', function(data, cb)
-    local player = source
-    local bet = data.bet
-    
-    -- Validate bet and player money
-    if not CanPlayerAfford(player, bet) then
-        cb({ error = "Insufficient funds" })
-        return
-    end
-    
-    -- Generate random results
-    local results = GenerateSpinResults()
-    
-    -- Calculate winnings
-    local winnings = CalculateWinnings(results, bet)
-    
-    cb({ results = results, winnings = winnings })
-end)
-
-RegisterNUICallback('complete', function(data, cb)
-    local player = source
-    local winnings = CalculateWinnings(data.results, data.bet)
-    
-    -- Update player money
-    AddPlayerMoney(player, winnings - data.bet)
-    
-    cb({ success = true })
-end)
-```
+- **Spin Button**: Triggers the spin animation and calls your `SpinPressed` callback
+- **Leave Machine Button**: Calls your `MachineLeft` callback and removes the slot machine
+- **Logo Area**: Displays your custom logo if provided
+- **Balance Display**: Shows "💰 0" by default (decorative only)
 
 ## 📱 Responsive Design
 
-The slot machine automatically adapts to different screen sizes:
+The slot machine automatically adapts to different screen sizes and containers:
 
-- **Desktop**: Full-featured layout with all controls visible
-- **Tablet**: Optimized button sizes and spacing
-- **Mobile**: Stacked controls layout for better touch interaction
+- **Large Screens**: Full-featured layout with all elements clearly visible
+- **Medium Screens**: Optimized spacing and proportions
+- **Small Containers**: Compact layout with adjusted element sizes
+- **Very Small Containers**: Minimal layout prioritizing the reels
 
 ## 🔧 Advanced Usage
 
 ### Multiple Instances
 ```javascript
-// Create multiple slot machines
-const casino = document.getElementById('casino-floor');
+// Create multiple slot machines on the same page
+const machine1 = new SlotMachine(document.getElementById('slot1'), {
+    symbols: { cherry: '🍒', lemon: '🍋' },
+    theme: SlotMachine.defaultThemes.cartoon
+});
 
-const slots1 = Slots.Render(casino.querySelector('#machine1'), options1);
-const slots2 = Slots.Render(casino.querySelector('#machine2'), options2);
-const slots3 = Slots.Render(casino.querySelector('#machine3'), options3);
+const machine2 = new SlotMachine(document.getElementById('slot2'), {
+    symbols: { diamond: '💎', star: '⭐' },
+    theme: SlotMachine.defaultThemes.neon
+});
 
 // Each instance operates independently
 ```
 
-### Custom Symbol Loading
+### Symbol Types
 ```javascript
-// Mix of emojis, text, and images
 symbols: {
-    cherry: '🍒',                           // Emoji
-    seven: '7',                             // Text  
-    diamond: 'https://cdn.com/diamond.png', // Image URL
-    logo: './assets/logo.png'               // Local image
+    // Emoji symbols
+    cherry: '🍒',
+    lemon: '🍋',
+    
+    // Text symbols  
+    seven: '7',
+    jackpot: 'JP',
+    
+    // Image URLs
+    logo: 'https://example.com/logo.png',
+    bonus: './assets/bonus-symbol.png'
 }
 ```
 
-### Win Detection Example
+### Animation Control
 ```javascript
-.SpinFinished((results, bet) => {
-    // Check middle row for matches
-    const middleRow = results.map(reel => reel[1]);
-    
-    if (middleRow.every(symbol => symbol === middleRow[0])) {
-        const winAmount = bet * getMultiplier(middleRow[0]);
-        showWinMessage(`You won $${winAmount}!`);
-        updateBalance(winAmount);
-    }
-})
+const machine = new SlotMachine(container, options)
+    .SpinPressed(() => {
+        // Your logic to determine results
+        const results = generateRandomResults();
+        
+        // Show loading or disable UI during spin
+        showSpinning(true);
+        
+        return results;
+    })
+    .SpinFinished((results) => {
+        // Re-enable UI after animation
+        showSpinning(false);
+        
+        // Process results (check for wins, update UI, etc.)
+        processResults(results);
+    });
+
+// Trigger spins programmatically
+machine.Spin();
 ```
+
+### Integration Example
+```javascript
+// Example integration with your application
+class SlotGameManager {
+    constructor() {
+        this.machine = new SlotMachine(document.getElementById('game'), {
+            symbols: this.getSymbols(),
+            theme: SlotMachine.defaultThemes.golden
+        })
+        .SpinPressed(() => this.handleSpin())
+        .SpinFinished((results) => this.handleSpinComplete(results))
+        .MachineLeft(() => this.handleExit());
+    }
+    
+    getSymbols() {
+        return {
+            cherry: '🍒',
+            bell: '🔔', 
+            seven: '7️⃣',
+            diamond: '💎'
+        };
+    }
+    
+    handleSpin() {
+        // Your game logic here
+        return this.generateResults();
+    }
+    
+    generateResults() {
+        // Generate random or predetermined results
+        const symbols = Object.keys(this.machine.config.symbols);
+        return Array.from({ length: 5 }, () => 
+            Array.from({ length: 3 }, () => 
+                symbols[Math.floor(Math.random() * symbols.length)]
+            )
+        );
+    }
+    
+    handleSpinComplete(results) {
+        // Check for winning combinations
+        if (this.isWinning(results)) {
+            this.showWinEffect();
+        }
+    }
+    
+    handleExit() {
+        // Clean up and return to main menu
+        this.cleanup();
+    }
+}
 
 ## 🛠 Development
 
-### Building from Source
+### Installation & Setup
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/ezslots.git
-cd ezslots
+# Clone or download the repository
+git clone https://github.com/your-username/EZSlotsJS.git
 
-# Open in VS Code
-code .
+# Include in your project
+<script src="path/to/Slots.js"></script>
 
-# Run build task (if MSBuild configured)
-# Or serve files with a local server
-python -m http.server 8000
+# Or use directly
+<script src="Slots.js"></script>
 ```
 
 ### File Structure
 ```
-ezslots/
-├── web/
-│   ├── slots-cdn.js      # Main CDN library
-│   ├── slots-demo.html   # Demo page
-│   ├── index.html        # Development page
-│   ├── script.js         # Development script
-│   └── styles.css        # Development styles
-└── README.md
+EZSlotsJS/
+├── Slots.js          # Main library file
+├── README.md         # Documentation
+└── LICENSE           # License file
 ```
 
-## 📋 Browser Support
-
+### Browser Compatibility
 - **Chrome**: 90+
-- **Firefox**: 88+
+- **Firefox**: 88+ 
 - **Safari**: 14+
 - **Edge**: 90+
-- **FiveM CEF**: Full support
+- **Mobile browsers**: iOS Safari 14+, Chrome Mobile 90+
 
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
 **Slot machine not appearing:**
-- Ensure container has explicit width/height
-- Check that slots-cdn.js is loaded before calling Slots.Render()
+- Ensure the container element has explicit width and height
+- Verify `Slots.js` is loaded before creating the SlotMachine instance
+- Check browser console for JavaScript errors
 
-**Spins not working:**
-- Verify SpinPressed callback returns an array of arrays
-- Each reel array should have exactly 3 symbols
-- Symbol names must match those defined in config.symbols
+**Animations not working:**
+- Ensure your `SpinPressed` callback returns an array of arrays
+- Each reel array must contain exactly 3 symbol names
+- Symbol names must match keys defined in the `symbols` option
 
-**Styling issues:**
-- Container should have `position: relative`
-- Avoid conflicting CSS that might override slot styles
+**Styling conflicts:**
+- The library uses CSS custom properties - avoid overriding slot-specific styles
+- Container should allow the slot machine to size itself properly
+- Avoid CSS that might conflict with internal animations
 
-### Debug Mode
+### Debug Tips
 ```javascript
-// Enable console logging
-const slots = Slots.Render(container, {
-    ...options,
-    debug: true
-}).SpinPressed((bet) => {
-    console.log('Spin requested with bet:', bet);
-    return results;
-}).SpinFinished((results, bet) => {
-    console.log('Spin completed:', results, bet);
-});
+// Check if results format is correct
+const machine = new SlotMachine(container, options)
+    .SpinPressed(() => {
+        const results = [
+            ['cherry', 'lemon', 'orange'],
+            ['lemon', 'seven', 'cherry'], 
+            ['orange', 'diamond', 'lemon'],
+            ['seven', 'cherry', 'orange'],
+            ['diamond', 'orange', 'seven']
+        ];
+        console.log('Spin results:', results);
+        return results;
+    })
+    .SpinFinished((results) => {
+        console.log('Animation completed with:', results);
+    });
 ```
+
+## ⚡ Performance Notes
+
+- The library is optimized for smooth 60fps animations
+- Multiple instances can run simultaneously without performance issues
+- CSS animations are GPU-accelerated where supported
+- Memory usage is minimal with automatic cleanup on removal
 
 ## 📄 License
 
-MIT License - feel free to use in your projects.
+Apache 2.0 License - See LICENSE file for details.
 
 ## 🤝 Contributing
 
-Contributions welcome! Please read the contributing guidelines and submit pull requests for any improvements.
+Contributions are welcome! We encourage contributions in several areas:
+
+### Code Improvements
+- **Bug fixes**: Help us identify and fix issues
+- **Performance optimizations**: Improve animation smoothness and memory usage
+- **Feature enhancements**: Add new functionality while maintaining simplicity
+- **Code quality**: Refactoring, documentation improvements, and best practices
+
+### Theme Contributions
+- **New themes**: Create additional visual themes (e.g., retro, futuristic, minimalist)
+- **Theme improvements**: Enhance existing themes with better colors, gradients, or effects
+- **Accessibility**: Improve themes for better contrast and readability
+
+### How to Contribute
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-theme`)
+3. Make your changes
+4. Test thoroughly across different browsers and screen sizes
+5. Submit a pull request with a clear description
+
+For theme contributions, please include:
+- Screenshots or demos of your theme
+- Clear theme name and description
+- Proper CSS custom property definitions
+- Cross-browser compatibility testing
+
+### Issues & Feature Requests
+Feel free to open issues for:
+- Bug reports with reproduction steps
+- Feature requests with use case descriptions
+- Theme suggestions
+- Performance concerns
 
 ---
 
-**Made with ❤️ for the FiveM community**
+**EZ Slots JS - Simple slot machine display library for web applications**
