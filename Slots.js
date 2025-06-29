@@ -310,6 +310,9 @@
             position: relative;
             overflow: hidden;
             background: transparent;
+            container-type: size;
+            min-height: 400px;
+            min-width: 320px;
           }
 
           .${instanceId}-main-container {
@@ -317,9 +320,11 @@
             flex-direction: column;
             width: 100%;
             height: 100%;
+            max-width: 1200px;
+            max-height: 800px;
             background: var(--surface-primary);
             border: 1px solid var(--border-primary);
-            border-radius: min(24px, 2vh);
+            border-radius: clamp(8px, 2cqh, 24px);
             backdrop-filter: blur(20px);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border-glow);
             z-index: 5;
@@ -329,14 +334,15 @@
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            padding: min(24px, 3vh) min(32px, 4vw);
+            padding: clamp(12px, 3cqh, 32px) clamp(16px, 4cqw, 48px);
             background: var(--surface-secondary);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-primary);
-            border-radius: min(23px, 2vh) min(23px, 2vh) 0 0;
+            border-radius: clamp(8px, 2cqh, 24px) clamp(8px, 2cqh, 24px) 0 0;
             z-index: 10;
             position: relative;
             overflow: visible;
+            min-height: clamp(60px, 12cqh, 120px);
           }
 
           .${instanceId}-logo-section {
@@ -349,7 +355,7 @@
           }
 
           .${instanceId}-logo {
-            height: min(140px, 15vh);
+            height: clamp(60px, 12cqh, 140px);
             width: auto;
             position: relative;
             z-index: 15;
@@ -371,12 +377,13 @@
           .${instanceId}-balance {
             background: var(--accent-gradient);
             color: var(--text-on-accent);
-            padding: min(12px, 1.5vh) min(20px, 2.5vw);
-            border-radius: min(12px, 1.5vh);
+            padding: clamp(8px, 1.5cqh, 16px) clamp(12px, 2.5cqw, 24px);
+            border-radius: clamp(6px, 1.5cqh, 12px);
             font-weight: 600;
-            font-size: min(18px, 2.2vh);
+            font-size: clamp(12px, 2.2cqh, 20px);
             box-shadow: 0 4px 12px var(--accent-shadow);
             text-shadow: none;
+            white-space: nowrap;
           }
 
           .${instanceId}-lobby-section {
@@ -387,19 +394,20 @@
           }
 
           .${instanceId}-lobby-btn {
-            padding: min(12px, 1.5vh) min(20px, 2.5vw);
+            padding: clamp(8px, 1.5cqh, 16px) clamp(12px, 2.5cqw, 24px);
             border: 1px solid var(--border-accent);
-            border-radius: min(12px, 1.5vh);
+            border-radius: clamp(6px, 1.5cqh, 12px);
             background: var(--surface-accent);
             color: var(--text-accent);
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: min(18px, 2.2vh);
+            font-size: clamp(12px, 2.2cqh, 20px);
             cursor: pointer;
             transition: all 0.2s ease;
             text-transform: uppercase;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 12px var(--accent-shadow);
+            white-space: nowrap;
           }
 
           .${instanceId}-lobby-btn:hover {
@@ -413,48 +421,51 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: min(20px, 2.5vh);
-            gap: min(20px, 2.5vh);
+            padding: clamp(12px, 2.5cqh, 24px);
+            gap: clamp(12px, 2.5cqh, 24px);
             position: relative;
             z-index: 5;
+            min-height: 0;
           }
 
           .${instanceId}-reels-container {
             flex: 1;
             background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
             border: 2px solid var(--border-secondary);
-            border-radius: min(16px, 2vh);
-            padding: min(24px, 3vh);
+            border-radius: clamp(8px, 2cqh, 16px);
+            padding: clamp(12px, 3cqh, 32px);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(0, 0, 0, 0.15);
+            min-height: 0;
           }
 
           .${instanceId}-reels {
             display: flex;
             justify-content: center;
-            gap: min(2px, 0.2vw);
+            gap: clamp(2px, 0.5cqw, 8px);
             height: auto;
             align-items: center;
             background: rgba(0, 0, 0, 0.4);
-            padding: min(12px, 1.5vh);
-            border-radius: min(12px, 1.5vh);
+            padding: clamp(8px, 1.5cqh, 16px);
+            border-radius: clamp(6px, 1.5cqh, 12px);
             position: relative;
           }
 
           .${instanceId}-reel {
             background: var(--surface-tertiary);
             border: 1px solid var(--border-secondary);
-            border-radius: min(8px, 1vh);
+            border-radius: clamp(4px, 1cqh, 8px);
             overflow: hidden;
             position: relative;
-            width: min(calc(18vh), calc(15vw));
-            height: calc(min(calc(18vh), calc(15vw)) * 3);
+            width: clamp(60px, calc(15cqw - 10px), 120px);
+            height: calc(clamp(60px, calc(15cqw - 10px), 120px) * 3);
             display: flex;
             flex-direction: column;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 var(--border-highlight);
+            flex-shrink: 0;
           }
 
           .${instanceId}-reel:not(:last-child)::after {
@@ -480,12 +491,12 @@
           }
 
           .${instanceId}-symbol {
-            height: min(calc(18vh), calc(15vw));
-            width: min(calc(18vh), calc(15vw));
+            height: clamp(60px, calc(15cqw - 10px), 120px);
+            width: clamp(60px, calc(15cqw - 10px), 120px);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: min(calc(8vh), calc(6vw));
+            font-size: clamp(24px, calc(8cqw - 5px), 48px);
             border-bottom: 1px solid var(--border-secondary);
             background: var(--symbol-gradient);
             position: relative;
@@ -519,60 +530,71 @@
             align-items: flex-start;
             background: var(--surface-secondary);
             border-top: 1px solid var(--border-primary);
-            border-radius: 0 0 min(23px, 2vh) min(23px, 2vh);
-            padding: min(24px, 3vh) min(32px, 4vw);
+            border-radius: 0 0 clamp(8px, 2cqh, 24px) clamp(8px, 2cqh, 24px);
+            padding: clamp(12px, 3cqh, 32px) clamp(16px, 4cqw, 48px);
             backdrop-filter: blur(15px);
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-            gap: min(24px, 3vw);
+            gap: clamp(12px, 3cqw, 32px);
+            flex-wrap: wrap;
+            min-height: clamp(80px, 16cqh, 140px);
           }
 
           .${instanceId}-bet-section {
             display: flex;
-            gap: min(10px, 1.2vw);
+            gap: clamp(8px, 1.5cqw, 16px);
             align-items: center;
             justify-content: center;
+            flex-direction: column;
+            min-width: 0;
           }
 
           .${instanceId}-bet-label {
             color: var(--text-secondary);
-            font-size: min(14px, 1.7vh);
+            font-size: clamp(10px, 1.4cqh, 16px);
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            white-space: nowrap;
           }
 
           .${instanceId}-bet-controls {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: min(20px, 2.5vw);
+            gap: clamp(12px, 2.5cqw, 24px);
           }
 
           .${instanceId}-bet-display {
             background: var(--surface-tertiary);
             color: var(--text-primary);
-            padding: min(12px, 1.5vh) min(18px, 2.2vw);
-            border-radius: min(10px, 1.2vh);
+            padding: clamp(8px, 1.5cqh, 16px) clamp(12px, 2.2cqw, 20px);
+            border-radius: clamp(6px, 1.2cqh, 12px);
             border: 1px solid var(--border-secondary);
             font-weight: 600;
-            font-size: min(16px, 2vh);
-            min-width: min(120px, 15vw);
+            font-size: clamp(12px, 2cqh, 18px);
+            min-width: clamp(80px, 12cqw, 140px);
             text-align: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
           }
 
           .${instanceId}-bet-btn {
             background: var(--accent-gradient);
             color: var(--text-on-accent);
             border: none;
-            padding: min(10px, 1.2vh) min(16px, 2vw);
-            border-radius: min(8px, 1vh);
+            padding: clamp(8px, 1.2cqh, 14px) clamp(12px, 2cqw, 20px);
+            border-radius: clamp(4px, 1cqh, 8px);
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: min(14px, 1.7vh);
+            font-size: clamp(12px, 1.7cqh, 16px);
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 4px 12px var(--accent-shadow);
+            min-width: clamp(32px, 5cqw, 44px);
+            height: clamp(32px, 5cqh, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
 
           .${instanceId}-bet-btn:hover {
@@ -583,29 +605,33 @@
           .${instanceId}-spin-section {
             display: flex;
             align-items: center;
-            gap: min(15px, 1.8vw);
+            gap: clamp(8px, 1.8cqw, 20px);
+            flex-direction: column;
           }
 
           .${instanceId}-control-buttons {
             display: flex;
             flex-direction: row;
-            gap: min(15px, 1.8vw);
+            gap: clamp(8px, 1.8cqw, 20px);
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
           }
 
           .${instanceId}-control-btn {
-            padding: min(12px, 1.5vh) min(20px, 2.5vw);
+            padding: clamp(8px, 1.5cqh, 16px) clamp(12px, 2.5cqw, 24px);
             border: 1px solid var(--border-accent);
-            border-radius: min(10px, 1.2vh);
+            border-radius: clamp(6px, 1.2cqh, 12px);
             font-family: 'Inter', sans-serif;
             font-weight: 500;
-            font-size: min(14px, 1.7vh);
+            font-size: clamp(10px, 1.4cqh, 16px);
             cursor: pointer;
             transition: all 0.2s ease;
             text-transform: uppercase;
             background: var(--surface-accent);
             color: var(--text-accent);
             backdrop-filter: blur(10px);
+            white-space: nowrap;
           }
 
           .${instanceId}-control-btn:hover {
@@ -618,16 +644,18 @@
           .${instanceId}-spin-btn {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            font-size: min(18px, 2.2vh);
+            font-size: clamp(14px, 2.2cqh, 20px);
             font-weight: 600;
-            padding: min(16px, 2vh) min(32px, 4vw);
+            padding: clamp(12px, 2cqh, 20px) clamp(20px, 4cqw, 40px);
             border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: min(12px, 1.5vh);
+            border-radius: clamp(8px, 1.5cqh, 16px);
             position: relative;
             overflow: hidden;
             transition: all 0.2s ease;
             box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
             cursor: pointer;
+            min-height: clamp(40px, 6cqh, 56px);
+            white-space: nowrap;
           }
 
           .${instanceId}-spin-btn:disabled {
@@ -670,58 +698,88 @@
             }
           }
 
-          @container (max-width: 900px) {
-            .${instanceId}-header {
-              padding: min(15px, 2vh) min(20px, 3vw);
-              grid-template-columns: 1fr auto 1fr;
-            }
-
-            .${instanceId}-logo {
-              height: min(100px, 12vh);
-            }
-
-            .${instanceId}-balance, .${instanceId}-lobby-btn {
-              font-size: min(16px, 2vh);
-              padding: min(10px, 1.3vh) min(16px, 2vw);
-            }
-
+          @container (max-width: 700px) {
             .${instanceId}-controls {
               flex-direction: column;
               align-items: stretch;
-              gap: min(15px, 2vh);
-              padding: min(15px, 2vh) min(20px, 3vw);
+              gap: clamp(8px, 2cqh, 16px);
               text-align: center;
             }
 
-            .${instanceId}-reels {
-              gap: min(8px, 1vw);
-            }
-          }
-
-          @container (max-width: 600px) {
-            .${instanceId}-main-container {
-              border-width: 1px;
+            .${instanceId}-bet-section {
+              flex-direction: row;
+              align-items: center;
+              gap: clamp(8px, 2cqw, 16px);
             }
 
-            .${instanceId}-reels {
-              gap: min(6px, 1vw);
+            .${instanceId}-spin-section {
+              flex-direction: row;
+              justify-content: center;
             }
 
             .${instanceId}-header {
-              padding: min(10px, 1.5vh) min(15px, 2.5vw);
+              grid-template-columns: 1fr;
+              grid-template-rows: auto auto auto;
+              gap: clamp(8px, 1.5cqh, 12px);
+              text-align: center;
+            }
+
+            .${instanceId}-balance-section {
+              grid-column: 1;
+              grid-row: 1;
+              justify-content: center;
+            }
+
+            .${instanceId}-logo-section {
+              grid-column: 1;
+              grid-row: 2;
+            }
+
+            .${instanceId}-lobby-section {
+              grid-column: 1;
+              grid-row: 3;
+              justify-content: center;
+            }
+          }
+
+          @container (max-width: 500px) {
+            .${instanceId}-reels {
+              gap: clamp(1px, 0.5cqw, 4px);
+            }
+
+            .${instanceId}-bet-section {
+              flex-direction: column;
+              gap: clamp(6px, 1cqh, 10px);
+            }
+
+            .${instanceId}-control-buttons {
+              flex-direction: column;
+              gap: clamp(6px, 1cqh, 10px);
+            }
+
+            .${instanceId}-spin-section {
+              flex-direction: column;
+              gap: clamp(6px, 1cqh, 10px);
+            }
+          }
+
+          @container (max-height: 500px) {
+            .${instanceId}-header {
+              padding: clamp(8px, 2cqh, 16px) clamp(12px, 3cqw, 24px);
+            }
+
+            .${instanceId}-main-content {
+              padding: clamp(8px, 2cqh, 16px);
+              gap: clamp(8px, 2cqh, 16px);
             }
 
             .${instanceId}-controls {
-              padding: min(10px, 1.5vh) min(15px, 2.5vw);
+              padding: clamp(8px, 2cqh, 16px) clamp(12px, 3cqw, 24px);
+              gap: clamp(8px, 2cqw, 16px);
             }
 
             .${instanceId}-logo {
-              height: min(80px, 10vh);
-            }
-
-            .${instanceId}-balance, .${instanceId}-lobby-btn {
-              font-size: min(14px, 1.8vh);
-              padding: min(8px, 1vh) min(12px, 1.8vw);
+              height: clamp(40px, 8cqh, 80px);
             }
           }
         </style>
