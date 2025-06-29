@@ -5,7 +5,6 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
 ## 🎰 Features
 
 - **Modern UI**: Dark, vibrant themes with transparent backgrounds
-- **FiveM Ready**: Optimized for FiveM CEF integration
 - **Responsive Design**: Scales perfectly to any container size
 - **Multiple Themes**: Cartoon, Neon, and Golden themes included
 - **CDN Ready**: Drop-in library with zero dependencies
