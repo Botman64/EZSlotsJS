@@ -36,11 +36,11 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
             betIncrement: 10,
             logoUrl: 'https://example.com/logo.png',
             symbols: {
-                cherry: '🍒',
-                lemon: '🍋', 
-                orange: '🍊',
-                seven: '7️⃣',
-                diamond: '💎'
+                cherry: 'https://example.com/cherry.png',
+                lemon: 'https://example.com/lemon.png',
+                orange: 'https://example.com/orange.png',
+                seven: 'https://example.com/seven.png',
+                diamond: 'https://example.com/diamond.png'
             },
             theme: 'cartoon' // or 'neon', 'golden', or custom theme object
         }).SpinPressed((currentBet) => {
