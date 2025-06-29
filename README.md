@@ -42,7 +42,7 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
                 seven: 'https://example.com/seven.png',
                 diamond: 'https://example.com/diamond.png'
             },
-            theme: 'cartoon' // or 'neon', 'golden', or custom theme object
+            theme: Slots.defaultThemes.cartoon // Use built-in theme object
         }).SpinPressed((currentBet) => {
             // Return the spin results for each reel
             return [
@@ -83,7 +83,7 @@ Creates a new slot machine instance in the specified container.
     symbols: {                 // Symbol definitions
         symbolId: 'emoji|url'  // Can be emoji, text, or image URL
     },
-    theme: 'cartoon'           // Theme name or custom theme object
+    theme: Slots.defaultThemes.cartoon  // Theme object (see Built-in Themes section)
 }
 ```
 
@@ -169,23 +169,57 @@ Removes the slot machine from the DOM and cleans up all references.
 
 ## 🎨 Built-in Themes
 
+All themes are objects containing CSS custom properties that define the visual appearance. Access them via `Slots.defaultThemes`.
+
 ### Cartoon Theme
 ```javascript
-theme: 'cartoon'
+theme: Slots.defaultThemes.cartoon
 ```
-Dark purple/blue gradient with pink accents.
+
+| Property | Value | Description |
+|----------|-------|-------------|
+| `--background` | `linear-gradient(135deg, #2a2d3a 0%, #3d4159 50%, #4a5478 100%)` | Main background gradient |
+| `--surface-primary` | `rgba(45, 52, 78, 0.95)` | Primary surface color |
+| `--surface-secondary` | `rgba(55, 62, 88, 0.9)` | Secondary surface color |
+| `--surface-tertiary` | `rgba(65, 72, 98, 0.85)` | Tertiary surface color |
+| `--text-primary` | `#f1f3f5` | Primary text color |
+| `--text-secondary` | `#c9cdd4` | Secondary text color |
+| `--text-accent` | `#ff6b8a` | Accent text color |
+| `--accent-color` | `#ff6b8a` | Main accent color (pink) |
+| `--accent-gradient` | `linear-gradient(135deg, #ff6b8a, #ff8fa3)` | Accent gradient |
+| `--border-primary` | `rgba(241, 243, 245, 0.15)` | Primary border color |
+| `--border-accent` | `rgba(255, 107, 138, 0.3)` | Accent border color |
 
 ### Neon Theme  
 ```javascript
-theme: 'neon'
+theme: Slots.defaultThemes.neon
 ```
-Dark background with bright cyan/magenta neon colors.
+
+| Property | Value | Description |
+|----------|-------|-------------|
+| `--background` | `linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)` | Dark background gradient |
+| `--surface-primary` | `rgba(18, 18, 28, 0.95)` | Primary surface color |
+| `--text-primary` | `#e8f4fd` | Primary text color |
+| `--text-accent` | `#00ffff` | Cyan accent text |
+| `--accent-color` | `#00ffff` | Main accent color (cyan) |
+| `--accent-gradient` | `linear-gradient(135deg, #00ffff, #4dffff)` | Cyan gradient |
+| `--border-glow` | `rgba(0, 255, 255, 0.6)` | Glowing border effect |
+| `--accent-shadow` | `rgba(0, 255, 255, 0.4)` | Neon glow shadow |
 
 ### Golden Theme
 ```javascript
-theme: 'golden'
+theme: Slots.defaultThemes.golden
 ```
-Dark background with gold and amber luxury colors.
+
+| Property | Value | Description |
+|----------|-------|-------------|
+| `--background` | `linear-gradient(135deg, #1a1612 0%, #2a241e 50%, #3a332b 100%)` | Dark brown background |
+| `--surface-primary` | `rgba(35, 30, 25, 0.95)` | Primary surface color |
+| `--text-primary` | `#f5f2e8` | Warm text color |
+| `--text-accent` | `#ffc107` | Gold accent text |
+| `--accent-color` | `#ffc107` | Main accent color (gold) |
+| `--accent-gradient` | `linear-gradient(135deg, #ffc107, #ffca2c)` | Gold gradient |
+| `--border-accent` | `rgba(255, 193, 7, 0.3)` | Gold border color |
 
 ### Custom Theme
 ```javascript
@@ -194,7 +228,7 @@ theme: {
     '--surface-primary': 'rgba(45, 52, 78, 0.95)',
     '--text-primary': '#ffffff',
     '--accent-color': '#ff6b8a',
-    // ... see source for all available CSS variables
+    // ... see Slots.defaultThemes for all available properties
 }
 ```
 
@@ -235,7 +269,7 @@ The slot machine UI includes several interactive buttons that automatically call
                 seven: 'symbols/seven.png',
                 diamond: 'symbols/diamond.png'
             },
-            theme: 'neon'
+            theme: Slots.defaultThemes.neon
         }).SpinPressed((bet) => {
             // Send bet to server
             fetch('https://your-server/spin', {
