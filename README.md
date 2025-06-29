@@ -26,7 +26,7 @@ A modern, theme-based, CDN-ready slot machine library designed specifically for 
 <body>
     <div id="slot-container" style="width: 100vw; height: 100vh;"></div>
     
-    <script src="https://your-cdn.com/slots-cdn.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Botman64/EZSlotsJS@main/Slots.js"></script>
     <script>
         const container = document.getElementById('slot-container');
         
