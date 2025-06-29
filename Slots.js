@@ -1,17 +1,4 @@
-/**
- * Slots CDN Library
- * A modern, theme-based slot machine library for web applications
- *
- * Usage:
- * const slots = Slots.Render(container, options)
- *   .SpinPressed(callback)
- *   .SpinFinished(callback);
- */
-
-(function (global) {
-  'use strict';
-
-  class SlotMachine {
+class SlotMachine {
   constructor(container, options = {}) {
     this.container = (typeof container === 'string') ? document.querySelector(container) : container;
     if (!this.container) throw new Error('Parent container not found');
@@ -57,7 +44,7 @@
   }
   Spin() {
     if (this.spinCallback && !this.isSpinning) {
-      const results = this.spinCallback();
+      const results = this.spinCallback(this.currentBet);
       if (results && Array.isArray(results)) this._spin(results);
     }
   }
@@ -848,12 +835,6 @@ SlotMachine.defaultSymbols = {
   'star': '⭐',
   'diamond': '💎',
   'coin': '🪙'
-  };
+};
 
-  // Expose the class directly and via factory
-  window.SlotMachine = SlotMachine;
-  window.Slots = {
-    Render: (container, options) => new SlotMachine(container, options)
-  };
-
-})(typeof window !== 'undefined' ? window : this);
+window.SlotMachine = SlotMachine;
