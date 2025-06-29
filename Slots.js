@@ -842,3 +842,4 @@
 
   window.SlotMachine = SlotMachine;
 })(typeof window !== 'undefined' ? window : this);
+
